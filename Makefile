@@ -6,7 +6,7 @@
 #    By: ciclo <ciclo@student.42.fr>                +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2023/03/10 09:40:27 by ciclo             #+#    #+#              #
-#    Updated: 2023/03/10 21:59:41 by ciclo            ###   ########.fr        #
+#    Updated: 2023/03/10 23:42:29 by ciclo            ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -30,7 +30,7 @@ OBJ			:= $(addprefix $(OBJ_DIR), $(addsuffix .o, $(SRC_FILES)))
 $(NAME): $(OBJ)
 	@make -C libft
 	@mkdir -p bin && mv libft/libft.a bin
-	@$(CC) $(CFLAGS) $(OBJ) -o $@ -L bin -lft
+	@$(CC) $(CFLAGS) $(OBJ) -o $@ -L bin -lft -lreadline
 	@echo "Compiling $@"
 
 $(OBJ_DIR)%.o: $(SRC_DIR)%.c | $(OBJ_DIR)
