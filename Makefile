@@ -6,7 +6,7 @@
 #    By: ciclo <ciclo@student.42.fr>                +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2023/03/10 09:40:27 by ciclo             #+#    #+#              #
-#    Updated: 2023/03/10 23:42:29 by ciclo            ###   ########.fr        #
+#    Updated: 2023/03/11 11:53:20 by ciclo            ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -27,11 +27,24 @@ SRC_FILES	:= minishell utils
 SRC			:= $(addprefix $(SRC_DIR), $(addsuffix .c, $(SRC_FILES)))
 OBJ			:= $(addprefix $(OBJ_DIR), $(addsuffix .o, $(SRC_FILES)))
 
+DEFAULT = \033[0;39m
+GRAY = \033[0;90m
+RED = \033[0;91m
+GREEN = \033[0;92m
+YELLOW = \033[0;93m
+BLUE = \033[0;94m
+MAGENTA = \033[0;95m
+CYAN = \033[0;96m
+WHITE = \033[0;97m
+
 $(NAME): $(OBJ)
+	@if [ ! -d "libft" ]; then \
+		git clone https://github.com/dugonzal/libft.git; \
+	fi
 	@make -C libft
 	@mkdir -p bin && mv libft/libft.a bin
 	@$(CC) $(CFLAGS) $(OBJ) -o $@ -L bin -lft -lreadline
-	@echo "Compiling $@"
+	@printf "$(BLUE)Compiling $@$(DEFAULT)\n"
 
 $(OBJ_DIR)%.o: $(SRC_DIR)%.c | $(OBJ_DIR)
 	@$(CC) $(CFLAGS) -c $< -o $@ -I $(INC_DIR)*
