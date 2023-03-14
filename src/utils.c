@@ -1,32 +1,13 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   minishell.h                                        :+:      :+:    :+:   */
+/*   utils.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: ciclo <ciclo@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2023/03/10 09:41:17 by ciclo             #+#    #+#             */
-/*   Updated: 2023/03/12 21:59:00 by ciclo            ###   ########.fr       */
+/*   Created: 2023/03/10 21:26:30 by ciclo             #+#    #+#             */
+/*   Updated: 2023/03/10 21:26:34 by ciclo            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef MINISHELL_H
-# define MINISHELL_H
-
-#define BLUE "\033[0;34m"
-
-# include "../libft/include/libft.h"
-# include <dirent.h>
-# include <stdlib.h>
-# include <readline/readline.h>
-# include <readline/history.h>
-# include <signal.h>
-
-typedef struct s_mini
-{
-	char **bufer;
-} t_mini;
-
-void	handler(int sig, siginfo_t *info, void *context);
-
-#endif
+#include "../include/minishell.h"
