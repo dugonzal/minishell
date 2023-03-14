@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ciclo <ciclo@student.42.fr>                +#+  +:+       +#+        */
+/*   By: dugonzal <dugonzal@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/10 09:41:17 by ciclo             #+#    #+#             */
-/*   Updated: 2023/03/12 21:59:00 by ciclo            ###   ########.fr       */
+/*   Updated: 2023/03/14 21:17:01 by dugonzal         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,7 +15,12 @@
 
 #define BLUE "\033[0;34m"
 
-# include "../libft/include/libft.h"
+#ifndef libft_h
+
+#define libft "../libft/include/libft.h"
+#include libft
+#endif
+
 # include <dirent.h>
 # include <stdlib.h>
 # include <readline/readline.h>
@@ -25,8 +30,9 @@
 typedef struct s_mini
 {
 	char **bufer;
+	char **env;
+	char *line_buffer;
 } t_mini;
-
 void	handler(int sig, siginfo_t *info, void *context);
 
 #endif

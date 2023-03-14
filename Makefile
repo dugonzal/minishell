@@ -3,10 +3,10 @@
 #                                                         :::      ::::::::    #
 #    Makefile                                           :+:      :+:    :+:    #
 #                                                     +:+ +:+         +:+      #
-#    By: ciclo <ciclo@student.42.fr>                +#+  +:+       +#+         #
+#    By: dugonzal <dugonzal@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2023/03/10 09:40:27 by ciclo             #+#    #+#              #
-#    Updated: 2023/03/14 13:58:13 by ciclo            ###   ########.fr        #
+#    Updated: 2023/03/14 21:15:25 by dugonzal         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -38,7 +38,7 @@ CYAN = \033[0;96m
 WHITE = \033[0;97m
 
 $(NAME): $(OBJ)
-	@if [ ! -d "libft" ]; then git clone https://github.com/dugonzal/libft.git;  fi
+	@if [ ! -d "libft/*" ]; then git clone https://github.com/dugonzal/libft.git;  fi
 	@make -C libft
 	@mkdir -p bin && mv libft/libft.a bin
 	@$(CC) $(CFLAGS) $(OBJ) -o $@ -L bin -lft -lreadline

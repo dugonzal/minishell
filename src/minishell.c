@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ciclo <ciclo@student.42.fr>                +#+  +:+       +#+        */
+/*   By: dugonzal <dugonzal@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/10 10:01:34 by ciclo             #+#    #+#             */
-/*   Updated: 2023/03/14 11:29:29 by ciclo            ###   ########.fr       */
+/*   Updated: 2023/03/14 21:14:40 by dugonzal         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,23 +18,27 @@
 // Esperar a que el comando termine su ejecución
 // Mostrar el prompt de nuevo
 
+void	init_v(t_mini *mini, char **env)
+{
+	mini = malloc(sizeof(t_mini));
+	if (!mini)
+		return ;
+	ft_memset (mini, 0, sizeof(t_mini));
+	while (*env)
+		printf ("[%s]", *env++);
+
+}
+
 int	main(int ac, char **av, char **env)
 {
 	t_mini *mini;
 	struct sigaction	sa;
-
-	mini = malloc(sizeof(t_mini));
-	if (!mini)
-		return (0);
-	ft_memset (mini, 0, sizeof(t_mini));
-	char				*line;
-	int					status;
 	(void)av;
 	(void)ac;
-	(void)env;
 	status = 1;
 	sa.sa_sigaction = handler;
 	sa.sa_flags = SA_SIGINFO;
+	init_v(mini, env);
 	while (status)
 	{
 		sigaction(SIGINT, &sa, NULL);
