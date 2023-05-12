@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   signals.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: Dugonzal <dugonzal@student.42urduliz.com>  +#+  +:+       +#+        */
+/*   By: sizquier <sizquier@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/12 21:58:16 by ciclo             #+#    #+#             */
-/*   Updated: 2023/05/12 10:50:59 by Dugonzal         ###   ########.fr       */
+/*   Updated: 2023/05/12 19:27:28 by sizquier         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,11 +21,11 @@ void	sig_handler(int signum)
 	1-> es el valor que le doy a g_exit_status.*/
 	if (signum == SIGINT)
 	{
-		if (rl_on_new_line() == -1) // si la nueva linea está creada, no la crees
+		if(rl_on_new_line() == -1)// si la nueva linea está creada, no la crees
 			exit(-1); //salgo de la función
 		g_status = 1; // el valor de salida en este caso es 1
-		printf("\n");
-	//	rl_replace_line("", 0); // creame una nueva linea vacia
+		ft_printf("\n");
+		rl_replace_line("", 0); // creame una nueva linea vacia
 		rl_redisplay();// muestramela.
 	}
 	if (signum == SIGQUIT)
@@ -52,7 +52,7 @@ void	sig_handler_child_input(int signum)
 	else if (signum == SIGINT)
 	{
 		g_status = 130;
-		printf("\n");
+		ft_printf("\n");
 	}
 }
 
@@ -67,11 +67,12 @@ void	handler(int sig, siginfo_t *info, void *context)
 
 void signals(void)
 {
+	
 	struct sigaction sa;
 
 	sa.sa_sigaction = handler;
 	sa.sa_flags = SA_SIGINFO;
 
-	sigaction(SIGINT, &sa, NULL);
-	sigaction(SIGQUIT, &sa, NULL);
+	signal(SIGINT, sig_handler);
+	signal(SIGQUIT, sig_handler);
 }
