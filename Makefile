@@ -6,7 +6,7 @@
 #    By: sizquier <sizquier@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2023/03/10 09:40:27 by ciclo             #+#    #+#              #
-#    Updated: 2023/05/11 20:36:25 by sizquier         ###   ########.fr        #
+#    Updated: 2023/05/12 19:35:53 by sizquier         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -36,6 +36,8 @@ SRC_FILES	+=	minishell  utils signals exec expanser
 
 SRC			:= $(addprefix $(SRC_DIR), $(addsuffix .c, $(SRC_FILES)))
 OBJ			:= $(addprefix $(OBJ_DIR), $(addsuffix .o, $(SRC_FILES)))
+
+#$(info SRC FILES $(SRC_DIR))
 
 DEFAULT	= \033[0;39m
 GRAY 	= \033[0;90m
