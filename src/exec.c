@@ -6,7 +6,7 @@
 /*   By: sizquier <sizquier@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/13 15:48:30 by ciclo             #+#    #+#             */
-/*   Updated: 2023/05/15 16:43:50 by sizquier         ###   ########.fr       */
+/*   Updated: 2023/05/15 18:04:47 by sizquier         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -144,6 +144,11 @@ int builtins(t_cmd *cmd, t_data *data)
   {
     ft_unset_builtin(&cmd->cmd[1],data->env); // no se muy bien donde apunta data. Unset recibe dos argumentos como parametro
     return (1);
+  }
+  else if (!ft_strncmp(cmd->cmd[0], "cd", ft_strlen(cmd->cmd[0])))
+  {
+    ft_cd_builtin(cmd->cmd,data->env); 
+	return (1);
   }
   return (0);
 }
