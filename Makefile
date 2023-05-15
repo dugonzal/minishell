@@ -6,7 +6,7 @@
 #    By: sizquier <sizquier@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2023/03/10 09:40:27 by ciclo             #+#    #+#              #
-#    Updated: 2023/05/12 19:35:53 by sizquier         ###   ########.fr        #
+#    Updated: 2023/05/15 16:36:28 by sizquier         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -27,12 +27,12 @@ parser_dir 	:= parser/
 parser		:= split_token split_token_utils parser parser_utils lexer lexer_utils utils
 
 builtins_dir 	:= builtins/
-builtins		:= exit echo pwd env
+builtins		:= exit echo pwd env unset getenv
 
 SRC_FILES 	+= $(addprefix $(parser_dir),$(parser))
 SRC_FILES 	+= $(addprefix $(builtins_dir),$(builtins))
 
-SRC_FILES	+=	minishell  utils signals exec expanser
+SRC_FILES	+=	minishell  utils signals exec expanser	getenv
 
 SRC			:= $(addprefix $(SRC_DIR), $(addsuffix .c, $(SRC_FILES)))
 OBJ			:= $(addprefix $(OBJ_DIR), $(addsuffix .o, $(SRC_FILES)))
