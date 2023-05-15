@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: Dugonzal <dugonzal@student.42urduliz.com>  +#+  +:+       +#+        */
+/*   By: sizquier <sizquier@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/10 09:41:17 by ciclo             #+#    #+#             */
-/*   Updated: 2023/05/12 10:49:56 by Dugonzal         ###   ########.fr       */
+/*   Updated: 2023/05/15 16:31:03 by sizquier         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,6 +22,7 @@
 # include <signal.h>
 # include <sys/wait.h>
 # include <fcntl.h>
+# include <errno.h>
 
 typedef struct s_cmd
 {
@@ -53,6 +54,8 @@ int		bin_execute(t_cmd *cmd, t_data *data);
 // builtins
 int		verify_quotes(t_data *data);
 void	print(char **str);
+int	export_pwd(char *var, char **envp[]);
+int	cd_argument(char **envp[]);
 
 // utils
 void	*free_array(char **array);
