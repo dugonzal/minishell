@@ -6,7 +6,7 @@
 /*   By: sizquier <sizquier@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/14 17:48:35 by sizquier          #+#    #+#             */
-/*   Updated: 2023/05/14 19:12:04 by sizquier         ###   ########.fr       */
+/*   Updated: 2023/05/15 16:42:23 by sizquier         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,7 +24,7 @@ int	ft_arraylen(char **envp) //necesito la len de un arreglo de cadenas de carac
 
 /* función de lógica de unset, cuando se elimina un elemento del enviroment, se crea un nuevo envoriment sin la vble que se desea eliminar. Para ello defino una funicón que recibe como parametro la vble a eliminar(var), dentro del puntero a un arreglo de cadena de caracteres
 para ello, necesito definir una nueva vbble new_envp que no incluya la vble que deseo eliminar*/
-int	ft_unset_builtin2(char *var, char ***envp) // funcion que recibe dos parametros, la vble var que deseo eliminar dentro del puntero a un arreglo de cadena de caracteres. tengo que iterar en envp para ver 
+int	ft_unset_builtin2(char *var, char **envp) // funcion que recibe dos parametros, la vble var que deseo eliminar dentro del puntero a un arreglo de cadena de caracteres. tengo que iterar en envp para ver 
 {
 	int		i;
 	int		j;
@@ -37,7 +37,7 @@ int	ft_unset_builtin2(char *var, char ***envp) // funcion que recibe dos paramet
 	if (!var)
 		return (0);
 	new_envp = (char **) malloc((ft_arraylen(*envp) + 1) * sizeof(char *));
-	var2 = ft_strjoin(var, "="); //var2 une los elementos de var y el signo =, esdecir, voy a concatenar de tal forma que var2 incluya "var="  y asi utilizarlo en las comparaciones posteriores.
+	var2 = ft_strjoin(var, "=", 0); //var2 une los elementos de var y el signo =, esdecir, voy a concatenar de tal forma que var2 incluya "var="  y asi utilizarlo en las comparaciones posteriores.
 	//hago un bucle para comparar con la condición utilizando ft_strncmp la cadena de caracteres (*envp)[i] con las variables var2 y var. Lo comparo en el if, y si cumple creo una nuva vble. y tras su ejecución avanzo en el siguiente elemento del env(i)
 	while ((*envp)[i]) // mientras exista envpi
 	{
@@ -47,13 +47,13 @@ int	ft_unset_builtin2(char *var, char ***envp) // funcion que recibe dos paramet
 		i++; // despues de ejecutar el if, para avanzar en el siguiente elemento de envp(i)
 	}
 	new_envp[j] = NULL; // fin del arreglo creado con strdup
-	free_array((void **)*envp); // Duvan, he visto que tenias esta funcion, y la he utilizado"
+	free_array((void **)envp); // Duvan, he visto que tenias esta funcion, y la he utilizado"
 	*envp = new_envp;
 	free(var2);
 	return (0);
 }
 /*funcion para eliminar multiples vbles del entorno, de manera individualizada. El arreglo var contiene las vbles a eliminar, del arreglo de vbles del entorno (envp)*/
-int	ft_unset_builtin(char	**var, char	***envp)
+int	ft_unset_builtin(char	**var, char	**envp)
 {
 	int	i;
 
