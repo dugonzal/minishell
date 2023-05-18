@@ -6,38 +6,19 @@
 /*   By: sizquier <sizquier@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/16 09:03:50 by sizquier          #+#    #+#             */
-/*   Updated: 2023/05/18 20:41:37 by sizquier         ###   ########.fr       */
+/*   Updated: 2023/05/18 21:36:34 by sizquier         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
+#include "../../include/minishell.h"
 /*
 
 En Bash export tiene dos funciones:
-1) Crear cmdiables de entorno
-2) exportar cmdiables de entorno.
-3)La ultima función es que si se escribe sólo export en bash se printea el texto declare -x
+1) Crear variables de entorno
+2) exportar variables de entorno.
+3)La ultima función es que si se escribe sólo export en bash se printea el texto declare -x + 
 
-Pero hay que verificar unos controles de errores
-********CONTROL ERRORES**********************
-	En Bash, las cmdiables que se pueden exportar deben cumplir con ciertas reglas :
-
-	Deben comenzar con una letra o un guion bajo (_).
-	Después del primer carácter, pueden contener letras, números o guiones bajos.
-	No pueden contener espacios ni caracteres especiales, como signos de puntuación o símbolos.
-	Son sensibles a mayúsculas y minúsculas. Por lo tanto, las cmdiables MY_cmdIABLE y my_cmdiable son distintas.
-	Aquí hay algunos ejemplos de cmdiables válidas para exportar en Bash:
-
-	ejemplo de control de errores
-
-	bash-3.2$ export HOME =/yo
-	bash: export: `=/yo': not a valid identifier
-	bash-3.2$ echo $?
-	1 -> por eso el valor de g_status es 1
-
-
-	****Funciones necesarias CONTROL DE ERRORES:
-		1)ft_cmd_isalnum(char	*str):crear una función que reciba como argumento un char *str y que mientras se esté iterando sobre ella, que controle que si el primer caracter recibido NO ES ALFANUMERICO, y es distinto de = -> retorne 1 que es el valor de error.
-		2)void	ft_invalid(char *c):Crear una función que printee que el argumento recibido (char *c) no es valido, y que pinte que el valor de salida de g_status es 1
+Pero hay que verificar unos controles de errores-> este apartado se ha llevado a builtin_extra
 
 
 ********CREAR VARIABLES DE ENTORNO**********************
@@ -53,30 +34,6 @@ Pero hay que verificar unos controles de errores
 
 */
 
-/*******CONTROL ERRORES**********************/
-
-int	ft_cmd_isalnum(char	*str)
-{
-	int	i;
-
-	i = 0;
-	while (str[i] && str[i] != '=')
-	{
-		if (!ft_isalnum(str[i]) && str[i] != '_')
-			return (0);
-		i++;
-	}
-	return (1);
-}
-
-
-void	ft_invalid(char *c)
-{
-	ft_printf("export: `%s': not a valid identifier\n", c);
-	g_status = 1;
-	return ;
-}
-
 
 /*versión con triple puntero, manteniendose como estática.
 El parámetro env se pasa como un puntero a un puntero a un puntero a char (char ***env). 
@@ -86,7 +43,7 @@ La idea es diseñar una función que prepare para la exportación haciendo lo si
 2)declaramos un new_env, con len = a la longitud del arreglo de punteros a caracteres *env más 2 (para la nueva cmdiable de entorno y el finalización nulo).
 3)hay que copiar todas las cadenas de caracteres de  *env en new_env, para ello usamos un bucle while
 */
-static void	generate_export(char	*cmd, char	***env)
+static void	ft_generate_export(char	*cmd, char	**env)
 {
 	int		i;
 	int		j;
@@ -97,35 +54,18 @@ static void	generate_export(char	*cmd, char	***env)
 	if (ft_isdigit(cmd[0]) || !ft_cmd_isalnum(cmd))
 		return (ft_invalid(cmd));
 	new_env = (char **) malloc((ft_arraylen(*env) + 2) * sizeof(char *));
-	while ((*env)[i])
+	while ((env)[i])
 	{
-		new_env[j++] = ft_strdup((*env)[i]);
+		new_env[j++] = ft_strdup((env)[i]);
 		i++;
 	}
 	new_env[j++] = ft_strdup(cmd);
 	new_env[j] = NULL;
-	free_dblearray((void **)*env); //habría que declararla y ya no serviría tu función free_array
-	*env = new_env;
+	free_array((void **)envp); //llamo a tu función free_array
+	env = new_env;
 	//return new_env si es doble puntero, esto me ha dicho Santi.
 }
 
-
-/*me corrigen y  me indican que es mejor la función con triple puntero
-La función free_dblearray sería algo así:
-void	ffree_dblearray(void **array)
-{
-	int	i;
-
-	i = 0;
-	if (!array)
-		return ;
-	while (array[i])
-	{
-		free(array[i]);
-		i++;
-	}
-	free(array);
-}
 
 */
 
@@ -134,7 +74,7 @@ bash-3.2$ export MYNAME='susana' -> esta función pretende controlar la parte 'M
 La funcion substr se utiliza para extraer los i caracteres desde que cmd es == '=', desde la posición 0 despues del igual
 
 */
-static char	*export_namecmd(char	*cmd)
+static char	*ft_export_namecmd(char	*cmd)
 {
 	int		i;
 
@@ -158,7 +98,7 @@ Para comprar, se debe comparar toda la longitud del name_cmd, con las vbles del 
 
 
 */
-static int	check_replace(char	*cmd, char	***env)
+static int	ft_check_replace(char	*cmd, char	**env)
 {
 	int		i;
 	char	*name_cmd;
@@ -167,12 +107,12 @@ static int	check_replace(char	*cmd, char	***env)
 	name_cmd = export_cmdname(cmd);
 	if (cmd == NULL) //caso que cmd no tenga valor
 		name_cmd = ft_strdup(cmd);
-	while ((*env)[i]) // caso que cmd tenga valor
+	while ((env)[i]) // caso que cmd tenga valor
 	{
-		if (ft_strncmp((*env)[i], name_cmd, ft_strlen(name_cmd)) == 0)
+		if (ft_strncmp((env)[i], name_cmd, ft_strlen(name_cmd)) == 0)
 		{
-			free((*env)[i]);
-			(*env)[i] = ft_strdup(cmd);
+			free((env)[i]);
+			(env)[i] = ft_strdup(cmd);
 			free(name_cmd);
 			return (1);
 		}
@@ -189,7 +129,7 @@ Si el primer carácter de cmd no es un signo igual (=), se llama a la función c
 check_replacerealiza el reemplazo 
 
 Si check_replace devuelve 0, no se encontró una coincidencia, se llama a la función export_create para crear una nueva cmdiable de entorno utilizando cmd y env.*/
-int	export_builtin_individual(char *cmd, char ***env)
+int	ft_export_builtin_individual(char *cmd, char **env)
 {
 	int		found;
 
@@ -204,10 +144,10 @@ int	export_builtin_individual(char *cmd, char ***env)
 		export_create(cmd, env);
 	return (0);
 }
-/*función general export builtin. Esta función permite manejar cada argumento individualmente (llamando )
+/*función general export builtin. Esta función permite manejar cada argumento individualmente (llamando ) y despues agregar y/o manejar las vbles del entorno
 1)no hay argumentos adicionales después de export-> muestra todas las variables precedidas del texto: declare -x
 2)si hay argumentos-> recorre y llama a la funcion export_builtin_individual con cada argumento y al env*/
-int	export_general_builtin(char	**cmd, char	***env)
+int	export_general_builtin(char	**cmd, char	**env)
 {
 	int	i;
 
@@ -216,13 +156,13 @@ int	export_general_builtin(char	**cmd, char	***env)
 	if (!cmd[1])
 	{
 		i = 0;
-		while ((*env)[i])
-			printf("declare -x %s\n", (*env)[i++]);
+		while ((env)[i])
+			printf("declare -x %s\n", (env)[i++]);
 		return (1);
 	}
 	while (cmd[i])
 	{
-		export_builtin1(cmd[i++], env);
+		ft_export_builtin_individual(cmd[i++], env);
 	}
 	return (1);
 }
