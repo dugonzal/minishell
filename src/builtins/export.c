@@ -6,7 +6,7 @@
 /*   By: sizquier <sizquier@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/16 09:03:50 by sizquier          #+#    #+#             */
-/*   Updated: 2023/05/16 19:55:14 by sizquier         ###   ########.fr       */
+/*   Updated: 2023/05/18 13:48:18 by sizquier         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,7 +29,9 @@ Funciones necesarias:
 1)ft_cmd_isalnum(char	*str):crear una función que reciba como argumento un char *str y que mientras se esté iterando sobre ella, que controle que si el primer caracter recibido NO ES ALFANUMERICO, y es distinto de = -> retorne 1 que es el valor de error.
 2)void	ft_invalid(char *c):Crear una función que printee que el argumento recibido (char *c) no es valido, y que pinte que el valor de salida de g_status es 1
 3)función para generar la expor con las vbles de envp + la que quiero agregar al envp
-*/
+4)static char	*export_namevar(char	*var)->función para recoger el nombre de la vble que voy a asignar después del = 
+
+5) una característica de export, es que si utilizo una vble de entorno con el mismo nombre que var (que es un puntero a una cadena de caracteres)->debe reemplazar su valor
 int	ft_cmd_isalnum(char	*str)
 {
 	int	i;
@@ -143,3 +145,81 @@ void	ffree_dblearray(void **array)
 }
 
 */
+
+/* en bash debemos ejecutar un nombre= para que el sistema interprete que ahi comienza mi declaración. Por ejemplo 
+bash-3.2$ export MYNAME='susana' -> esta función pretende controlar la parte 'MYNAME=' ¿porque? porque si la primera parte , se llama igual que una vble de entorno -> reemplaza el valor (de ahi función siguiente)
+La funcion substr se utiliza para extraer los i caracteres desde que var es == '=', desde la posición 0 despues del igual
+
+*/
+static char	*export_namevar(char	*var)
+{
+	int		i;
+
+	i = 0;
+	while (var[i])
+	{
+		if (var[i] == '=')
+			return (ft_substr(var, 0, i));
+		i++;
+	}
+	return (NULL);
+}
+
+/*función para verificar si existe una variable de entorno con el mismo nombre que var y reemplazar su valor si procede. De ahi que como puede ser necesario realizar una modificación de la cadena de caracteres, el hacer la copia con strdup es una buena practica
+dos casos de uso:
+VAR es nulo
+VAR tien valor
+Si var es nulo, var_name (vble utiliziada para no trabajar con var directamente), no tendría información, con lo que para evitar problemas de memoria hacemos strup a var listo
+si var tiene valor, es importante comparar el valor var_name por lo comentado antes, ya que si la vble de entorno exite-> se modifica, sino se crea nueva. De ahi que haya que iterar en todos los elementos del enviroment  que contenga variables de entorno almacenadas como cadenas de caracteres.
+Para comprar, se debe comparar toda la longitud del var_name, con las vbles del entorno (envp[i]). Si coincide, entonces se machaca su valor, de ahí, que se libere enpv, y se haga la copia de var con strdup
+
+
+*/
+static int	check_replace(char	*var, char	***envp)
+{
+	int		i;
+	char	*var_name;
+
+	i = 0;
+	var_name = export_varname(var);
+	if (var == NULL) //caso que var no tenga valor
+		var_name = ft_strdup(var);
+	while ((*envp)[i]) // caso que var tenga valor
+	{
+		if (ft_strncmp((*envp)[i], var_name, ft_strlen(var_name)) == 0)
+		{
+			free((*envp)[i]);
+			(*envp)[i] = ft_strdup(var);
+			free(var_name);
+			return (1);
+		}
+		i++;
+	}
+	if (var_name)
+		free(var_name);
+	return (0);
+}
+/*control de errores, si var =="="
+bash-3.2$ export =
+bash: export: `=': not a valid identifier
+bash-3.2$
+
+Si el primer carácter de var no es un signo igual (=), se llama a la función check_replace para verificar si var ya existe como una vble entorno.Entonces mira si hay coincidencia,, si la hay, la reemplaza con la fucnion
+check_replacerealiza el reemplazo 
+
+Si check_replace devuelve 0, no se encontró una coincidencia, se llama a la función export_create para crear una nueva variable de entorno utilizando var y envp.*/
+int	export_builtin1(char *var, char ***envp)
+{
+	int		exists;
+
+	if (var[0] == '=')
+	{
+		g_status = 1;
+		ft_printf("export: '%s': not a valid identifier\n", var);
+		return (1);
+	}
+	exists = check_replace(var, envp);
+	if (exists == 0)
+		export_create(var, envp);
+	return (0);
+}
