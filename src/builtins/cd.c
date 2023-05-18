@@ -6,7 +6,7 @@
 /*   By: sizquier <sizquier@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/09 10:02:47 by sizquier          #+#    #+#             */
-/*   Updated: 2023/05/15 18:03:00 by sizquier         ###   ########.fr       */
+/*   Updated: 2023/05/18 21:29:40 by sizquier         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,25 +19,25 @@ Libreria #include <errno.h>*/
 #include "../../include/minishell.h"
 
 /* función que devuelve ok o no ok a los argumentos que se reciben de cmd es una estructura que contiene el comando que se esta ejecutando, puntero a un puntero de un arreglo de cadenas */
-int	ft_cd_builtin(t_cmd *cmd, char **envp[])
+int	ft_cd_builtin(t_cmd *cmd, char **env[])
 {
 	char	*path;
 /*caso de uso que no existe ningún argumento->se llama a cd_argument*/
 	if (!cmd->cmd[1])
-		return (cd_argument(envp));
+		return (cd_argument(env));
 		/*caso uso - tras cd, que te devuelve al pwd anterior*/
 	if (cmd->cmd[1][0] == '-' && cmd->cmd[1][1] == '\0')
-		path = ft_getenv("OLDPWD", *envp);
+		path = ft_getenv("OLDPWD", *env);
 	else
 		path = cmd->cmd[1];
-	if (export_pwd("OLDPWD=", envp))
+	if (export_pwd("OLDPWD=", env))
 		return (1);
 	if (chdir(path) != 0)
 	{
 		ft_printf("minishell: cd: %s: %s\n", path, strerror(errno));
 		return (1);
 	}
-	if (export_pwd("PWD=", envp))
+	if (export_pwd("PWD=", env))
 		return (1);
 	return (0);
 }
@@ -46,14 +46,14 @@ Sino existe home-> no hay vble entorno y devuelve 1
 verificamos si se puede exportar el valor del directorio anterior con export_pwd-> si hay fallo devuelve 1
 chdir (permitida en el subject), cambia el directorio de trabajo actual a home. si falla devuelve 1
 Si la llamada a chdir falla, mensaje de error utilziando la función permitida strerror*/
-int	cd_argument(char **envp[])
+int	cd_argument(char **env[])
 {
 	char	*home;
 
-	home = ft_getenv("HOME", *envp);
+	home = ft_getenv("HOME", *env);
 	if (!home)
 		return (1);
-	if (export_pwd("OLDPWD=", envp))
+	if (export_pwd("OLDPWD=", env))
 		return (1);
 	if (chdir(home) != 0)
 	{
@@ -62,7 +62,7 @@ int	cd_argument(char **envp[])
 		perror("cd: ~");
 		return (1);
 	}
-	if (export_pwd("PWD=", envp))
+	if (export_pwd("PWD=", env))
 		return (1);
 	free(home);
 	return (0);
@@ -70,9 +70,21 @@ int	cd_argument(char **envp[])
 /*función para exportar el directorio de trabajo actual, toma como argumento un puntero que indica la vble del entorno y un puntero a un puntureo que se refiere a las vbles del entorno
 la función getcwd es para el directorio actual y se almacena en pwd. Si getcwd falla-> return 1.
 ft_strjoin une var con pwd y asigna a la vble path. Si la asignación de path falla-> vaolor 1 y error.
-verificamos con export_builtin que se exporta path utilizando envp. Si falla-> hay que liberar memoria ew pwd y path y asignado el valor 1. Mientras que si todo va bien, se libera memoria utilizand el valor 0
+verificamos con export_builtin_individual que se exporta path utilizando env. Si falla-> hay que liberar memoria ew pwd y path y asignado el valor 1. Mientras que si todo va bien, se libera memoria utilizand el valor 0
+Al utilizar la variable de entorno, se evita tener que especificar el directorio completo en cada comando y puedes acceder al directorio actual de manera más agil.
+Veamos un ejemplo, (esto me lo han explicado y lo imprimo tal cual), en bash escribo este comando, para que cuando escriba cd, me vaya a mi directorio actual
+
+cd:
+  if [ -d "$PWD" ]; then
+    cd "$PWD"
+  else
+    echo "Directory does not exist"
+  fi
+
+Esto hace que aunque no esté en mi prompt al escribir cd me vaya a el.
+Si export_builtin_individual retorna un valor distinto de 0, indica que ocurrió un error al agregar la variable de entorno, por lo que se liberan las memorias asignadas a pwd y path y retorna 1.
 */
-int	export_pwd(char *var, char **envp[])
+int	export_pwd(char *cmd, char **env[])
 {
 	char	*pwd;
 	char	*path;
@@ -83,7 +95,7 @@ int	export_pwd(char *var, char **envp[])
 	path = ft_strjoin(var, pwd,0);
 	if (!path)
 		return (1);
-	if (export_builtin1(path, envp)) // no subida aun pero es necesaria en export y cuando se complete se integra en todo
+	if (export_builtin_individual(path, env)) 
 		return (free(pwd), free(path), 1);
 	return (free(pwd), free(path), 0);
 }
