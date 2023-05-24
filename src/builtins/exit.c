@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   exit.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: Dugonzal <dugonzal@student.42urduliz.com>  +#+  +:+       +#+        */
+/*   By: sizquier <sizquier@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/10 14:04:21 by ciclo             #+#    #+#             */
-/*   Updated: 2023/05/12 10:48:16 by Dugonzal         ###   ########.fr       */
+/*   Updated: 2023/05/23 21:39:12 by sizquier         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,7 +39,7 @@ int	ft_exit(t_cmd *cmd)
 	if (cmd->cmd[1] && cmd->cmd[2])
 	{
 		g_status = 1;
-		ft_printf("exit: too many cmd\n");
+		ft_printf("exit: too many arguments\n");
 		return (1); // es el valor que devuelve tras echo $?
 	}
 	if (cmd->cmd[1])

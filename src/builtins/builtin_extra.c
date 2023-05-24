@@ -6,7 +6,7 @@
 /*   By: sizquier <sizquier@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/18 20:52:25 by sizquier          #+#    #+#             */
-/*   Updated: 2023/05/18 20:56:11 by sizquier         ###   ########.fr       */
+/*   Updated: 2023/05/23 20:35:04 by sizquier         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,7 +41,7 @@ int	ft_cmd_isalnum(char	*str)
 	i = 0;
 	while (str[i] && str[i] != '=')
 	{
-		if (!ft_isalnum(str[i]) && str[i] != '_')
+		if (!ft_cmd_isalnum(&str[i]) && str[i] != '_')
 			return (0);
 		i++;
 	}
@@ -54,4 +54,18 @@ void	ft_invalid(char *c)
 	ft_printf("export: `%s': not a valid identifier\n", c);
 	g_status = 1;
 	return ;
+}
+void	free_dblearray(void **array)
+{
+	int	i;
+
+	i = 0;
+	if (!array)
+		return ;
+	while (array[i])
+	{
+		free(array[i]);
+		i++;
+	}
+	free(array);
 }

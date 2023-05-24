@@ -6,7 +6,7 @@
 /*   By: sizquier <sizquier@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/10 20:19:41 by sizquier          #+#    #+#             */
-/*   Updated: 2023/05/10 20:22:27 by sizquier         ###   ########.fr       */
+/*   Updated: 2023/05/23 20:03:40 by sizquier         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,10 +16,9 @@ void	ft_env_builtin(char **envp)
 {
 	int	i;
 
-	i = 0;
+	i = 1;
 	while (envp[i])
 	{
-		printf("hola");
 		if (ft_strchr(envp[i], '=') != NULL)
 			ft_printf("%s\n", envp[i]);
 		i++;
