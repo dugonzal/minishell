@@ -6,7 +6,7 @@
 /*   By: sizquier <sizquier@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/14 17:48:35 by sizquier          #+#    #+#             */
-/*   Updated: 2023/05/24 16:45:50 by sizquier         ###   ########.fr       */
+/*   Updated: 2023/05/24 16:56:52 by sizquier         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,7 +48,7 @@ int	ft_unset_builtin2(char *cmd, char ***env) // funcion que recibe dos parametr
 		i++; // despues de ejecutar el if, para avanzar en el siguiente elemento de envp(i)
 	}
 	new_env[j] = NULL; // fin del arreglo creado con strdup
-	free_dblearray((void **)env); 
+	free_dblearray((void **)*env); 
 	*env = new_env;
 	free(cmd2);
 	return (0);
