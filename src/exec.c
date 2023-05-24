@@ -6,7 +6,7 @@
 /*   By: sizquier <sizquier@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/13 15:48:30 by ciclo             #+#    #+#             */
-/*   Updated: 2023/05/18 21:01:36 by sizquier         ###   ########.fr       */
+/*   Updated: 2023/05/24 17:13:25 by sizquier         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -142,19 +142,33 @@ int builtins(t_cmd *cmd, t_data *data)
   }
  else if (!ft_strncmp(cmd->cmd[0], "unset", ft_strlen(cmd->cmd[0])))
   {
-    ft_unset_builtin(&cmd->cmd[1],data->env); 
+    ft_unset_builtin(cmd->cmd,&data->env); 
     return (1);
-  }
-  else if (!ft_strncmp(cmd->cmd[0], "cd", ft_strlen(cmd->cmd[0])))
-  {
-    ft_cd_builtin(cmd->cmd,data->env); 
-	return (1);
   }
   else if (!ft_strncmp(cmd->cmd[0], "export", ft_strlen(cmd->cmd[0])))
   {
-    ft_export_general_builtin(&cmd->cmd[1],data->env); 
+    ft_export_general_builtin(cmd->cmd,&data->env); 
 	return (1);
   }
   return (0);
 }
 
+  /*
+  else if (!ft_strncmp(cmd->cmd[0], "cd", ft_strlen(cmd->cmd[0])))
+  {
+    ft_cd_builtin(cmd->cmd,data->env); 
+	return (1);
+  }
+
+  else if (!ft_strncmp(cmd->cmd[0], "export", ft_strlen(cmd->cmd[0])))
+  {
+    ft_export_general_builtin(&(cmd->cmd),&data->env); 
+	return (1);
+  }
+else if (!ft_strncmp(cmd->cmd[0], "unset", ft_strlen(cmd->cmd[0])))
+  {
+    ft_unset_builtin(&cmd->cmd[1],data->env); 
+    return (1);
+  }
+
+  */
