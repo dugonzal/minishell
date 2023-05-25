@@ -6,7 +6,7 @@
 /*   By: sizquier <sizquier@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/16 09:03:50 by sizquier          #+#    #+#             */
-/*   Updated: 2023/05/23 21:29:05 by sizquier         ###   ########.fr       */
+/*   Updated: 2023/05/25 18:03:27 by sizquier         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -99,7 +99,7 @@ char	*ft_export_namecmd(char	*cmd)
 	while (cmd[i])
 	{
 		if (cmd[i] == '=')
-			return (ft_substr(cmd, 0, i));
+			return (ft_substr(cmd, 0, i + 1));
 		i++;
 	}
 	return (NULL);
@@ -126,15 +126,22 @@ int	ft_check_replace(char	*cmd, char	***env)
 	{
 		if (ft_strncmp((*env)[i], name_cmd, ft_strlen(name_cmd)) == 0)
 		{
-			free((*env)[i]);
-			(*env)[i] = ft_strdup(cmd);
-			free(name_cmd);
+			//free((*env)[i]);
+			printf("hola");
+			//(*env)[i] = ft_strdup(cmd);
+			//free(name_cmd);
 			return (1);
 		}
 		i++;
 	}
-	if (name_cmd)
+	//free(name_cmd);
+	
+		if (name_cmd)
+	{
 		free(name_cmd);
+		name_cmd = NULL;
+	}
+	
 	return (0);
 }
 /*
@@ -179,5 +186,6 @@ int	ft_export_general_builtin(char	**cmd, char	***env)
 	{
 		ft_export_builtin_individual(cmd[i++], env);
 	}
+	free_dblearray((void **)*env);
 	return (1);
 }

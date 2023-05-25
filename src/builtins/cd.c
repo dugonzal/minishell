@@ -6,7 +6,7 @@
 /*   By: sizquier <sizquier@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/09 10:02:47 by sizquier          #+#    #+#             */
-/*   Updated: 2023/05/24 16:39:31 by sizquier         ###   ########.fr       */
+/*   Updated: 2023/05/25 18:07:11 by sizquier         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -88,14 +88,14 @@ int	export_pwd(char *cmd, char **env[])
 {
 	char	*pwd;
 	char	*path;
-
+	(void)	env;
 	pwd = getcwd(NULL, 0);
 	if (!pwd)
 		return (1);
 	path = ft_strjoin(cmd, pwd,0);
 	if (!path)
 		return (1);
-	if (ft_export_builtin_individual(path, env)) 
-		return (free(pwd), free(path), 1);
+	//if (ft_export_builtin_individual(path, env)) 
+	//	return (free(pwd), free(path), 1);
 	return (free(pwd), free(path), 0);
 }

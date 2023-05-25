@@ -6,7 +6,7 @@
 /*   By: sizquier <sizquier@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/10 14:04:21 by ciclo             #+#    #+#             */
-/*   Updated: 2023/05/23 21:39:12 by sizquier         ###   ########.fr       */
+/*   Updated: 2023/05/25 14:53:45 by sizquier         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,7 +54,9 @@ int	ft_exit(t_cmd *cmd)
 	else
 	{
 		g_status = 0;
-		printf("%d", g_status);
+		//printf("%d", g_status);
 	}
 	return (0);
 }
+
+

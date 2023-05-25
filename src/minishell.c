@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: Dugonzal <dugonzal@student.42urduliz.com>  +#+  +:+       +#+        */
+/*   By: sizquier <sizquier@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/10 10:01:34 by ciclo             #+#    #+#             */
-/*   Updated: 2023/05/12 10:48:57 by Dugonzal         ###   ########.fr       */
+/*   Updated: 2023/05/25 18:10:16 by sizquier         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,14 +26,14 @@ int	main(int ac, char **av, char **env)
 	ft_bzero (&data, sizeof(t_data));
 	data.status = 1;
 	data.path = ft_split(getenv("PATH"), ':', 0);
-	user = prompt();
+	user = prompt();		
+	data.env = env;
 	while (42)
 	{
 		signals();
 		data.line = readline (user);
 		if (!data.line)
 			break ;
-		data.env = env;
 		if (lexer(&data))
 			continue ;
 		parser(&data);

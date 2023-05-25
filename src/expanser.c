@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   expanser.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: Dugonzal <dugonzal@student.42urduliz.com>  +#+  +:+       +#+        */
+/*   By: sizquier <sizquier@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/03 17:03:30 by Dugonzal          #+#    #+#             */
-/*   Updated: 2023/05/08 19:08:27 by Dugonzal         ###   ########.fr       */
+/*   Updated: 2023/05/23 21:16:22 by sizquier         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,11 +21,11 @@ int count_expanser(char *str)
 	;
   return (i);
 }
-
-char *ft_getenv(char *str)
+/*
+char *ft_getenv(char *str, char **env)
 {
   char *tmp;
-
+(void)env;
   if (!str)
 	return (NULL);
   tmp = getenv(str);
@@ -34,6 +34,7 @@ char *ft_getenv(char *str)
 	return (ft_strdup(tmp));
   return (NULL);
 }
+*/
 
 int	expanser(t_data *data)
 {
@@ -56,7 +57,7 @@ int	expanser(t_data *data)
 	  {
 		j++;
 		size = count_expanser(&data->bufer[i][j]);
-		env = ft_getenv(ft_strndup(&data->bufer[i][j], size)); // expanser
+		env = ft_getenv(ft_strndup(&data->bufer[i][j], size), &env); // expanser
 		if (!env)
 		  return(err_msg(RED"Error: Environment variable not found."RESET));
 		if (j > 1)

@@ -6,7 +6,7 @@
 /*   By: sizquier <sizquier@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/10 09:41:17 by ciclo             #+#    #+#             */
-/*   Updated: 2023/05/15 16:31:03 by sizquier         ###   ########.fr       */
+/*   Updated: 2023/05/25 17:48:45 by sizquier         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,6 +23,7 @@
 # include <sys/wait.h>
 # include <fcntl.h>
 # include <errno.h>
+# include <string.h>
 
 typedef struct s_cmd
 {
@@ -54,14 +55,23 @@ int		bin_execute(t_cmd *cmd, t_data *data);
 // builtins
 int		verify_quotes(t_data *data);
 void	print(char **str);
-int	export_pwd(char *var, char **envp[]);
-int	cd_argument(char **envp[]);
+int		export_pwd(char *var, char **envp[]);
+int		cd_argument(char **envp[]);
+void	free_dblearray(void **array);
+char	*ft_getenv(char	*var, char	**envp);
+int		ft_export_builtin_individual(char *cmd, char ***env);
+int		ft_unset_builtin(char	**cmd, char	***env);
+int		ft_export_general_builtin(char	**cmd, char	***env);
 
 // utils
 void	*free_array(char **array);
 void	print(char **str);
 char	*fun_check(char *str);
 int		search(char *set, char c);
+int		ft_cmd_isalnum(char	*str);
+void	ft_invalid(char *c);
+void	free_dblearray(void **array);
+
 
 //lexer
 int		lexer(t_data *data);
