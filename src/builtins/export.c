@@ -6,7 +6,7 @@
 /*   By: sizquier <sizquier@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/16 09:03:50 by sizquier          #+#    #+#             */
-/*   Updated: 2023/05/23 21:29:05 by sizquier         ###   ########.fr       */
+/*   Updated: 2023/05/25 20:12:39 by sizquier         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -79,16 +79,20 @@ void	ft_generate_export(char	*cmd, char	***env)
 	j = 0;
 	if (ft_isdigit(cmd[0]) || !ft_cmd_isalnum(cmd))
 		return (ft_invalid(cmd));
-	new_env = (char **) malloc((arr_size(*env) + 2) * sizeof(char *));
+	new_env = (char **) ft_calloc((arr_size(*env) + 2) , sizeof(char *));
+	if(!new_env)
+		return;
 	while ((*env)[i])
 	{
+		printf ("fd");
 		new_env[j++] = ft_strdup((*env)[i]);
 		i++;
 	}
 	new_env[j++] = ft_strdup(cmd);
 	new_env[j] = NULL;
-	free_dblearray((void **)*env);
+	//free_dblearray((void **)*env);
 	*env = new_env;
+	print(*env);
 }
 
 char	*ft_export_namecmd(char	*cmd)
@@ -148,15 +152,22 @@ int	ft_export_builtin_individual(char *cmd, char ***env)
 {
 	int	found;
 
+		printf("hola estoy hasta los huevos");
+
 	if (cmd[0] == '=')
 	{
-		g_status = 1;
+		//g_status = 1;
 		ft_printf("export: '%s': not a valid identifier\n", cmd);
 		return (1);
 	}
-	found = ft_check_replace(cmd, env);
-	if (found == 0)
-		ft_generate_export(cmd, env);
+	else
+	{
+		
+		found = ft_check_replace(cmd, env);
+		printf ("---%d---", found);
+		if (found == 0)
+			ft_generate_export(cmd, env);
+	}
 	return (0);
 }
 /*función general export builtin. Esta función permite manejar cada argumento individualmente (llamando ) y despues agregar y/o manejar las vbles del entorno
@@ -166,18 +177,32 @@ int	ft_export_general_builtin(char	**cmd, char	***env)
 {
 	int	i;
 
+	//g_status = 0;		
+
 	i = 1;
-	g_status = 0;
 	if (!cmd[1])
 	{
-		i = 0;
+		i = 0;	
+
+		printf("declare -x %s\n", (*env)[i++]);
 		while ((*env)[i])
-			printf("declare -x %s\n", (*env)[i++]);
+		break;
 		return (1);
 	}
-	while (cmd[i])
+
+	if(cmd[1])
 	{
-		ft_export_builtin_individual(cmd[i++], env);
+		printf("vas a entrar al while?");
+		while (cmd[i])
+		{
+			printf("ENTRA COÑO");
+
+			ft_export_builtin_individual(cmd[i], env);
+					printf("declare -x %s\n", (*env)[i]);
+ 
+			i++;
+			//break;
+		}
 	}
 	return (1);
 }

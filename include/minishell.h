@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: Dugonzal <dugonzal@student.42urduliz.com>  +#+  +:+       +#+        */
+/*   By: sizquier <sizquier@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/10 09:41:17 by ciclo             #+#    #+#             */
-/*   Updated: 2023/05/25 14:01:45 by Dugonzal         ###   ########.fr       */
+/*   Updated: 2023/05/25 18:51:13 by sizquier         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -60,9 +60,10 @@ int builtins(t_cmd *cmd, t_data *data);
 int		ft_echo(char **str);
 int		ft_pwd(void);
 void	ft_execute_echo(char **cmd);
-void	ft_echo_builtin(t_cmd *cmd, t_data *data);
-int		ft_exit(t_cmd  *cmd, t_data *data);
-void	ft_env(char **env, t_data *data);
+void	ft_echo_builtin(t_cmd *cmd);
+int		ft_exit(t_cmd  *cmd);
+void	ft_env(char **envp);
+int		ft_unset_builtin(char	**cmd, char	***env);
 
 // utils
 void	*free_array(char **array);

@@ -6,7 +6,7 @@
 /*   By: sizquier <sizquier@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/18 20:52:25 by sizquier          #+#    #+#             */
-/*   Updated: 2023/05/23 20:35:04 by sizquier         ###   ########.fr       */
+/*   Updated: 2023/05/25 18:39:56 by sizquier         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,7 +52,7 @@ int	ft_cmd_isalnum(char	*str)
 void	ft_invalid(char *c)
 {
 	ft_printf("export: `%s': not a valid identifier\n", c);
-	g_status = 1;
+	//g_status = 1;
 	return ;
 }
 void	free_dblearray(void **array)

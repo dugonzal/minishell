@@ -6,7 +6,7 @@
 /*   By: sizquier <sizquier@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/14 17:48:35 by sizquier          #+#    #+#             */
-/*   Updated: 2023/05/24 16:56:52 by sizquier         ###   ########.fr       */
+/*   Updated: 2023/05/25 18:41:24 by sizquier         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,7 +33,7 @@ int	ft_unset_builtin2(char *cmd, char ***env) // funcion que recibe dos parametr
 
 	i = 0;
 	j = 0;
-	g_status = 0;
+	//g_status = 0;
 	if (!cmd)
 		return (0);
 	new_env = (char **) malloc((ft_arraylen(*env) + 1) * sizeof(char *));

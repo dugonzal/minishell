@@ -1,0 +1,42 @@
+==95133== Memcheck, a memory error detector
+==95133== Copyright (C) 2002-2022, and GNU GPL'd, by Julian Seward et al.
+==95133== Using Valgrind-3.21.0.GIT-lbmacos and LibVEX; rerun with -h for copyright info
+==95133== Command: cat command
+==95133== Parent PID: 95132
+==95133== 
+==95133== 
+==95133== HEAP SUMMARY:
+==95133==     in use at exit: 133,686 bytes in 163 blocks
+==95133==   total heap usage: 179 allocs, 16 frees, 145,838 bytes allocated
+==95133== 
+==95133== 16,384 bytes in 1 blocks are still reachable in loss record 37 of 38
+==95133==    at 0x10011D545: malloc (in /Users/sizquier/.brew/Cellar/valgrind/HEAD-59136a1/libexec/valgrind/vgpreload_memcheck-amd64-darwin.so)
+==95133==    by 0x1000018C1: ??? (in /bin/cat)
+==95133==    by 0x100001637: ??? (in /bin/cat)
+==95133==    by 0x1002D3CC8: start (in /usr/lib/system/libdyld.dylib)
+==95133==    by 0x1: ???
+==95133==    by 0x10810D8CA: ???
+==95133==    by 0x10810D8CE: ???
+==95133== 
+==95133== 103,292 bytes in 1 blocks are still reachable in loss record 38 of 38
+==95133==    at 0x10011DEE6: realloc (in /Users/sizquier/.brew/Cellar/valgrind/HEAD-59136a1/libexec/valgrind/vgpreload_memcheck-amd64-darwin.so)
+==95133==    by 0x1003D96F9: reallocf (in /usr/lib/system/libsystem_c.dylib)
+==95133==    by 0x1003DCF27: _Read_RuneMagi (in /usr/lib/system/libsystem_c.dylib)
+==95133==    by 0x1003ADE4A: __setrunelocale (in /usr/lib/system/libsystem_c.dylib)
+==95133==    by 0x1003AE314: __wrap_setrunelocale (in /usr/lib/system/libsystem_c.dylib)
+==95133==    by 0x1003ADB08: loadlocale (in /usr/lib/system/libsystem_c.dylib)
+==95133==    by 0x100001543: ??? (in /bin/cat)
+==95133==    by 0x1002D3CC8: start (in /usr/lib/system/libdyld.dylib)
+==95133==    by 0x1: ???
+==95133==    by 0x10810D8CA: ???
+==95133==    by 0x10810D8CE: ???
+==95133== 
+==95133== LEAK SUMMARY:
+==95133==    definitely lost: 0 bytes in 0 blocks
+==95133==    indirectly lost: 0 bytes in 0 blocks
+==95133==      possibly lost: 0 bytes in 0 blocks
+==95133==    still reachable: 119,676 bytes in 2 blocks
+==95133==         suppressed: 14,010 bytes in 161 blocks
+==95133== 
+==95133== For lists of detected and suppressed errors, rerun with: -s
+==95133== ERROR SUMMARY: 0 errors from 0 contexts (suppressed: 7 from 7)

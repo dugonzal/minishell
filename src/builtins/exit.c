@@ -6,7 +6,7 @@
 /*   By: sizquier <sizquier@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/10 14:04:21 by ciclo             #+#    #+#             */
-/*   Updated: 2023/05/23 21:39:12 by sizquier         ###   ########.fr       */
+/*   Updated: 2023/05/25 18:26:57 by sizquier         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,7 +19,7 @@
 
 int	ft_numeric_error(t_cmd	*cmd)
 {
-	g_status = 255;
+	//g_status = 255;
 	printf("exit: %s: numeric argument required\n", \
 			cmd->cmd[1]);
 	return (0);
@@ -38,7 +38,7 @@ int	ft_exit(t_cmd *cmd)
 	i = -1;
 	if (cmd->cmd[1] && cmd->cmd[2])
 	{
-		g_status = 1;
+		//g_status = 1;
 		ft_printf("exit: too many arguments\n");
 		return (1); // es el valor que devuelve tras echo $?
 	}
@@ -49,12 +49,14 @@ int	ft_exit(t_cmd *cmd)
 			if (ft_isalpha(cmd->cmd[1][i]))
 				return (ft_numeric_error(cmd));
 		}
-		g_status = ft_atoi(cmd->cmd[1]);
+		//g_status = ft_atoi(cmd->cmd[1]);
 	}
+/*	
 	else
 	{
 		g_status = 0;
 		printf("%d", g_status);
 	}
+*/
 	return (0);
 }
