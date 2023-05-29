@@ -6,7 +6,7 @@
 /*   By: Dugonzal <dugonzal@student.42urduliz.com>  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/27 11:58:25 by Dugonzal          #+#    #+#             */
-/*   Updated: 2023/05/18 11:46:15 by Dugonzal         ###   ########.fr       */
+/*   Updated: 2023/05/29 21:48:27 by Dugonzal         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,20 +27,9 @@ int lexer_errors(char **str)
   return (0);
 }
 
-int	lexer(t_data *data, char **env)
+int	lexer(t_data *data)
 {
-  int flag;
-
-  flag = 0;
   if (!data->line[0])
-	return (1);
-//  if (ft_strlen(data->line) > 1 &&  search("\"\'", data->line[0])) // segfoult
-  {
-//	flag = 1;
-//	add_history (data->line); 
-//	data->line = ft_strtrim(data->line, &data->line[0], 1);
-  }
- if (!data->line[0])
 	return (1);
  data->line = ft_strtrim(data->line, " \t\v\f\r", 1);
   if (!data->line[0])
@@ -60,9 +49,7 @@ data->bufer = split_token(data->line, " \t\v\f\r", ">|<;", "\"\'");
 	return (1);
   }
   print (data->bufer);
-  if (!flag)
-	add_history (data->line); 
+add_history (data->line); 
   free (data->line);
-  get_env_and_path(data, env); // get env and path -- data->env and data->path
   return (0);
 }

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   exec.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: sizquier <sizquier@student.42.fr>          +#+  +:+       +#+        */
+/*   By: Dugonzal <dugonzal@student.42urduliz.com>  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/13 15:48:30 by ciclo             #+#    #+#             */
-/*   Updated: 2023/05/29 18:26:10 by sizquier         ###   ########.fr       */
+/*   Updated: 2023/05/29 21:42:25 by Dugonzal         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -125,7 +125,6 @@ int	bin_execute(t_cmd *cmd, t_data *data)
 			return(1);
 	  if (cmd->type == 5)
 		  ft_dup2(cmd->fd, 1);
-		if (builtins(cmd, data));
 		else if (cmd->cmd[0][0] == '.' || cmd->cmd[0][0] == '/')
 		  execute_relative_or_absolute(cmd, data);
 		else

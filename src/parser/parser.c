@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parser.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: sizquier <sizquier@student.42.fr>          +#+  +:+       +#+        */
+/*   By: Dugonzal <dugonzal@student.42urduliz.com>  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/26 21:15:13 by Dugonzal          #+#    #+#             */
-/*   Updated: 2023/05/29 18:04:10 by sizquier         ###   ########.fr       */
+/*   Updated: 2023/05/29 21:43:22 by Dugonzal         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -73,7 +73,10 @@ void exec(t_cmd *cmd, t_data *data)
   {
 	seach_quotes(tmp->cmd, "\"\'");
 	redir (cmd);
-	bin_execute(tmp, data);
+	if (builtins(cmd, data))
+		;
+	else
+		bin_execute(tmp, data);
 	if (tmp->type != 5)
 	  reset_fd(data);
 	tmp = tmp->next;

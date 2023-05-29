@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: sizquier <sizquier@student.42.fr>          +#+  +:+       +#+        */
+/*   By: Dugonzal <dugonzal@student.42urduliz.com>  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/10 09:41:17 by ciclo             #+#    #+#             */
-/*   Updated: 2023/05/29 18:08:44 by sizquier         ###   ########.fr       */
+/*   Updated: 2023/05/29 21:48:46 by Dugonzal         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -75,7 +75,7 @@ int		search(char *set, char c);
 void	free_cmd(t_cmd *cmd);
 
 //lexer
-int		lexer(t_data *data, char **env);
+int		lexer(t_data *data);
 char	**split_token(const char *prompt, char *set, char *quotes, char *special);
 int		count_tokens(const char *prompt, char *set, char *quotes, char *specials);
 int		quotes_token(const char *str, char quote, char *set);

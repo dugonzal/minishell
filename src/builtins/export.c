@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   export.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: sizquier <sizquier@student.42.fr>          +#+  +:+       +#+        */
+/*   By: Dugonzal <dugonzal@student.42urduliz.com>  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/16 09:03:50 by sizquier          #+#    #+#             */
-/*   Updated: 2023/05/29 19:00:50 by sizquier         ###   ########.fr       */
+/*   Updated: 2023/05/29 21:45:49 by Dugonzal         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -135,7 +135,6 @@ int	ft_check_replace(char	*cmd, t_data *data)
 		if (ft_strncmp(data->env[i], name_cmd, ft_strlen(name_cmd)) == 0)
 		{
 			free((data->env)[i]);
-			printf("hola");
 			data->env[i] = ft_strdup(cmd);
 			free(name_cmd);
 			return (1);
