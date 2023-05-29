@@ -6,7 +6,7 @@
 /*   By: sizquier <sizquier@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/16 09:03:50 by sizquier          #+#    #+#             */
-/*   Updated: 2023/05/25 20:12:39 by sizquier         ###   ########.fr       */
+/*   Updated: 2023/05/29 19:00:50 by sizquier         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -69,7 +69,7 @@ bash-3.2$ export MYNAME='susana' -> esta función pretende controlar la parte 'M
 La funcion substr se utiliza para extraer los i caracteres desde que cmd es == '=', desde la posición 0 despues del igual
 
 */
-void	ft_generate_export(char	*cmd, char	***env)
+void	ft_generate_export(char	*cmd, t_data *data)
 {
 	int		i;
 	int		j;
@@ -77,22 +77,26 @@ void	ft_generate_export(char	*cmd, char	***env)
 
 	i = 0;
 	j = 0;
-	if (ft_isdigit(cmd[0]) || !ft_cmd_isalnum(cmd))
-		return (ft_invalid(cmd));
-	new_env = (char **) ft_calloc((arr_size(*env) + 2) , sizeof(char *));
-	if(!new_env)
-		return;
-	while ((*env)[i])
+/* 	if (ft_isdigit(cmd[0]) || !ft_cmd_isalnum(cmd))
 	{
-		printf ("fd");
-		new_env[j++] = ft_strdup((*env)[i]);
+		printf("Hello\n");
+		return (ft_invalid(cmd));
+	} */
+	new_env = (char **) malloc((arr_size(data->env) + 2) * sizeof(char *));
+	while (data->env[i])
+	{
+		new_env[j++] = ft_strdup(data->env[i]);
 		i++;
 	}
 	new_env[j++] = ft_strdup(cmd);
+//	printf("My added var:%s\n", new_env[j - 1]);
 	new_env[j] = NULL;
-	//free_dblearray((void **)*env);
-	*env = new_env;
-	print(*env);
+	if (data->init_env == 0)
+		free_dblearray((void **)data->env);
+	data->init_env = 0;
+//	printf("data env ptr pre %p\n", data->env);
+	data->env = new_env;
+//	printf("export result: %s\n", data->env[j - 1]);
 }
 
 char	*ft_export_namecmd(char	*cmd)
@@ -103,7 +107,7 @@ char	*ft_export_namecmd(char	*cmd)
 	while (cmd[i])
 	{
 		if (cmd[i] == '=')
-			return (ft_substr(cmd, 0, i));
+			return (ft_substr(cmd, 0, i + 1));
 		i++;
 	}
 	return (NULL);
@@ -117,7 +121,7 @@ La idea es diseñar una función que prepare para la exportación haciendo lo si
 3)hay que copiar todas las cadenas de caracteres de  *env en new_env, para ello usamos un bucle while
 */
 
-int	ft_check_replace(char	*cmd, char	***env)
+int	ft_check_replace(char	*cmd, t_data *data)
 {
 	int		i;
 	char	*name_cmd;
@@ -126,19 +130,26 @@ int	ft_check_replace(char	*cmd, char	***env)
 	name_cmd = ft_export_namecmd(cmd);
 	if (cmd == NULL) //caso que cmd no tenga valor
 		name_cmd = ft_strdup(cmd);
-	while ((*env)[i]) // caso que cmd tenga valor
+	while (data->env[i]) // caso que cmd tenga valor
 	{
-		if (ft_strncmp((*env)[i], name_cmd, ft_strlen(name_cmd)) == 0)
+		if (ft_strncmp(data->env[i], name_cmd, ft_strlen(name_cmd)) == 0)
 		{
-			free((*env)[i]);
-			(*env)[i] = ft_strdup(cmd);
+			free((data->env)[i]);
+			printf("hola");
+			data->env[i] = ft_strdup(cmd);
 			free(name_cmd);
 			return (1);
 		}
 		i++;
 	}
+//	free(name_cmd);
+	
 	if (name_cmd)
+	{
 		free(name_cmd);
+		name_cmd = NULL;
+	}
+	
 	return (0);
 }
 /*
@@ -148,11 +159,9 @@ Si el primer carácter de cmd no es un signo igual (=), se llama a la función c
 check_replacerealiza el reemplazo 
 
 Si check_replace devuelve 0, no se encontró una coincidencia, se llama a la función ft_generate_export para crear una nueva cmdiable de entorno utilizando cmd y env.*/
-int	ft_export_builtin_individual(char *cmd, char ***env)
+int	ft_export_builtin_individual(char *cmd, t_data *data)
 {
 	int	found;
-
-		printf("hola estoy hasta los huevos");
 
 	if (cmd[0] == '=')
 	{
@@ -160,49 +169,43 @@ int	ft_export_builtin_individual(char *cmd, char ***env)
 		ft_printf("export: '%s': not a valid identifier\n", cmd);
 		return (1);
 	}
-	else
+	found = ft_check_replace(cmd, data);
+	
+	if (found == 0)
 	{
-		
-		found = ft_check_replace(cmd, env);
-		printf ("---%d---", found);
-		if (found == 0)
-			ft_generate_export(cmd, env);
+		printf("Enterning generate export\n");
+		ft_generate_export(cmd, data);
 	}
 	return (0);
 }
 /*función general export builtin. Esta función permite manejar cada argumento individualmente (llamando ) y despues agregar y/o manejar las vbles del entorno
 1)no hay argumentos adicionales después de export-> muestra todas las variables precedidas del texto: declare -x
 2)si hay argumentos-> recorre y llama a la funcion export_builtin_individual con cada argumento y al env*/
-int	ft_export_general_builtin(char	**cmd, char	***env)
+int	ft_export_general_builtin(char	**cmd, t_data *data)
 {
 	int	i;
 
-	//g_status = 0;		
-
 	i = 1;
+	//g_status = 0;
+	printf("data env ptr %p\n", data->env);
 	if (!cmd[1])
 	{
-		i = 0;	
-
-		printf("declare -x %s\n", (*env)[i++]);
-		while ((*env)[i])
-		break;
+		i = 0;
+		while (data->env[i])
+			printf("declare -x %s\n", data->env[i++]);
+		printf("data env ptr %p\n", data->env);
 		return (1);
 	}
-
-	if(cmd[1])
+	while (cmd[i])
 	{
-		printf("vas a entrar al while?");
-		while (cmd[i])
-		{
-			printf("ENTRA COÑO");
-
-			ft_export_builtin_individual(cmd[i], env);
-					printf("declare -x %s\n", (*env)[i]);
- 
-			i++;
-			//break;
-		}
+//		printf("%s\n", cmd[i]);
+		ft_export_builtin_individual(cmd[i++], data);
 	}
+/* 	printf("data env ptr post 2%p\n\n\n", data->env);
+	i = 0;
+	while (data->env[i])
+		printf("declare -x %s\n", data->env[i++]); */
+//	printf("data env ptr %p\n", data->env);
+//	free_dblearray((void **)*env);
 	return (1);
 }

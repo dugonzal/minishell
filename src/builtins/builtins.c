@@ -6,13 +6,11 @@
 /*   By: sizquier <sizquier@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/13 13:05:56 by Dugonzal          #+#    #+#             */
-/*   Updated: 2023/05/25 19:54:50 by sizquier         ###   ########.fr       */
+/*   Updated: 2023/05/29 18:26:04 by sizquier         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../include/minishell.h"
-
-int	ft_export_general_builtin(char	**cmd, char	***env);
 
 int builtins(t_cmd *cmd, t_data *data)
 {
@@ -43,7 +41,7 @@ int builtins(t_cmd *cmd, t_data *data)
   }
    else if (!ft_strncmp(cmd->cmd[0], "export", 7))
   {
-	ft_export_general_builtin(cmd->cmd, &data->env);
+	ft_export_general_builtin(cmd->cmd, data);
     return (1);
   }
   else if (!ft_strncmp(cmd->cmd[0], "unset", ft_strlen(cmd->cmd[0])))

@@ -6,7 +6,7 @@
 /*   By: sizquier <sizquier@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/10 09:41:17 by ciclo             #+#    #+#             */
-/*   Updated: 2023/05/25 18:51:13 by sizquier         ###   ########.fr       */
+/*   Updated: 2023/05/29 18:08:44 by sizquier         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,6 +41,7 @@ typedef struct s_data
 	char			**bufer;
 	char			**path;
 	char			**env;
+	int				init_env;
 	int 			fd[2]; // pointer copy_fd
 	int 			status;
 	int				exit;
@@ -64,6 +65,7 @@ void	ft_echo_builtin(t_cmd *cmd);
 int		ft_exit(t_cmd  *cmd);
 void	ft_env(char **envp);
 int		ft_unset_builtin(char	**cmd, char	***env);
+int		ft_export_general_builtin(char	**cmd, t_data *data);
 
 // utils
 void	*free_array(char **array);
@@ -110,9 +112,8 @@ int 	redir(t_cmd *cmd);
 
 
 void 	get_env_and_path(t_data *data, char **env);
-int	ft_export_general_builtin(char	**cmd, char	***env);
 
-int	ft_cmd_isalnum(char	*str);
+int		ft_cmd_isalnum(char	*str);
 void	ft_invalid(char *c);
 void	free_dblearray(void **array);
 #endif
