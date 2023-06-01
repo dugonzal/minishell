@@ -6,7 +6,7 @@
 /*   By: Dugonzal <dugonzal@student.42urduliz.com>  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/16 09:03:50 by sizquier          #+#    #+#             */
-/*   Updated: 2023/06/01 17:08:00 by Dugonzal         ###   ########.fr       */
+/*   Updated: 2023/06/01 17:26:57 by Dugonzal         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -174,6 +174,22 @@ int	ft_export_builtin_individual(char *cmd, t_data *data)
 		ft_printf("export: '%s': not a valid identifier\n", cmd);
 		return (1);
 	}
+	if (ft_strlen(cmd) > 0 && !search(cmd, '='))
+	{
+		char **new_env;
+		int i;
+
+		i = -1;
+		cmd = ft_strjoin(cmd, "=''", 1);
+		new_env = (char **) malloc((arr_size(data->env) + 2) * sizeof(char *));
+		while (data->env[++i])
+			new_env[i] = ft_strdup(data->env[i]);
+		new_env[i++] = ft_strdup(cmd);
+		new_env[i] = NULL;
+		free_dblearray((void **)data->env);
+		data->env = new_env;
+		return (0);
+	}
 	found = ft_check_replace(cmd, data);
 	if (found == 0)
 	{
@@ -204,7 +220,6 @@ int	ft_export_general_builtin(char	**cmd, t_data *data)
 		while (cmd[i])
 		{
 //		printf("%s\n", cmd[i]);
-			if (ft_strlen (cmd[i]) > 2)
 				ft_export_builtin_individual(cmd[i], data);
 			i++;
 		}
