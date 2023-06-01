@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   export.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: sizquier <sizquier@student.42.fr>          +#+  +:+       +#+        */
+/*   By: Dugonzal <dugonzal@student.42urduliz.com>  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/16 09:03:50 by sizquier          #+#    #+#             */
-/*   Updated: 2023/06/01 16:50:16 by sizquier         ###   ########.fr       */
+/*   Updated: 2023/06/01 17:08:00 by Dugonzal         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -191,7 +191,7 @@ int	ft_export_general_builtin(char	**cmd, t_data *data)
 
 	i = 1;
 	//g_status = 0;
-	printf("data env ptr pre%p\n\n\n", data->env);
+//	printf("data env ptr pre%p\n\n\n", data->env);
 	if (!cmd[1])
 	{
 		i = 0;
@@ -199,16 +199,19 @@ int	ft_export_general_builtin(char	**cmd, t_data *data)
 			printf("declare -x %s\n", data->env[i++]);
 		return (1);
 	}
-	printf("begin var to insert: %s\n", cmd[1]);
-	while (cmd[i])
-	{
+//	printf("begin var to insert: %s\n", cmd[1]);
+	if (arr_size(cmd) > 0)
+		while (cmd[i])
+		{
 //		printf("%s\n", cmd[i]);
-		ft_export_builtin_individual(cmd[i++], data);
-	}
+			if (ft_strlen (cmd[i]) > 2)
+				ft_export_builtin_individual(cmd[i], data);
+			i++;
+		}
 	printf("data env ptr post 2%p\n\n\n", data->env);
-	i = 0;
-	while (data->env[i])
-		printf("declare -x %s\n", data->env[i++]);
+	//i = 0;
+	//while (data->env[i])
+	//	printf("declare -x %s\n", data->env[i++]);
 //	printf("data env ptr %p\n", data->env);
 //	free_dblearray((void **)*env);
 	return (1);
