@@ -12,7 +12,7 @@
 
 #include "../../include/minishell.h"
 
-char	*ft_getenv(char	*cmd, char	**env) // funcion para crear enviroment, la voy a utilizar 
+char	*ft_getenv_builtins(char	*cmd, char	**env) // funcion para crear enviroment, la voy a utilizar 
 {
 	int		i;
 	int		j;
@@ -22,7 +22,7 @@ char	*ft_getenv(char	*cmd, char	**env) // funcion para crear enviroment, la voy 
 
 	i = 0;
 	j = 0;
-	cmd2 = ft_strjoin(cmd, "=", 1); //se une los elementos de var utilizando el = como separador. El resultado se almacena en var2
+	cmd2 = ft_strjoin(cmd, "=", 0); //se une los elementos de var utilizando el = como separador. El resultado se almacena en var2
 	len = ft_strlen(cmd2); // tengo que darle a len la longitud de var2.
 	while (env[i])
 	{

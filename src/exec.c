@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   exec.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: Dugonzal <dugonzal@student.42urduliz.com>  +#+  +:+       +#+        */
+/*   By: sizquier <sizquier@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/13 15:48:30 by ciclo             #+#    #+#             */
-/*   Updated: 2023/05/29 21:42:25 by Dugonzal         ###   ########.fr       */
+/*   Updated: 2023/06/01 17:34:29 by sizquier         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -129,7 +129,7 @@ int	bin_execute(t_cmd *cmd, t_data *data)
 		  execute_relative_or_absolute(cmd, data);
 		else
 		  execute_path(cmd, data);
-//		exit (EXIT_SUCCESS); // si  lo comentamos deja de funcionar exit, y sino lo comentamos, sale cada vez que se utiliza una builtin
+		exit (EXIT_SUCCESS); // si  lo comentamos deja de funcionar exit, y sino lo comentamos, sale cada vez que se utiliza una builtin
 	}
 	if (pid > 0)
 	{

@@ -6,7 +6,7 @@
 /*   By: sizquier <sizquier@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/10 09:41:17 by ciclo             #+#    #+#             */
-/*   Updated: 2023/05/31 18:23:49 by sizquier         ###   ########.fr       */
+/*   Updated: 2023/06/01 20:03:07 by sizquier         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,9 +54,11 @@ int		bin_execute(t_cmd *cmd, t_data *data);
 void	print(char **str);
 int		verify_quotes(t_data *data);
 
-void ft_dup2(int *fd, int io);
+void 	ft_dup2(int *fd, int io);
 // builtins
-int builtins(t_cmd *cmd, t_data *data);
+int 	builtins(t_cmd *cmd, t_data *data);
+char	*ft_getenv_builtins(char *cmd, char	**env);
+int		ft_cd_builtin(t_cmd *cmd, t_data *data);
 int		ft_echo(char **str);
 int		ft_pwd(void);
 void	ft_execute_echo(char **cmd);
@@ -64,6 +66,7 @@ void	ft_echo_builtin(t_cmd *cmd);
 int		ft_exit(t_cmd  *cmd);
 void	ft_env(char **envp);
 int		ft_unset_builtin(char	**cmd, char	***env);
+int		ft_export_builtin_individual(char *cmd, t_data *data);
 int		ft_export_general_builtin(char	**cmd, t_data *data);
 
 // utils
