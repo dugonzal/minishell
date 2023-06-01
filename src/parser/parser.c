@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parser.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: Dugonzal <dugonzal@student.42urduliz.com>  +#+  +:+       +#+        */
+/*   By: sizquier <sizquier@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/26 21:15:13 by Dugonzal          #+#    #+#             */
-/*   Updated: 2023/05/29 21:43:22 by Dugonzal         ###   ########.fr       */
+/*   Updated: 2023/05/31 18:25:32 by sizquier         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -96,7 +96,6 @@ int parser(t_data *data)
 	else if (data->bufer[i])
 		i += parser_cmds(&data->bufer[i], &cmd);
   free (data->bufer);
-  data->init_env = 1;//flag a 1 para la nueva vbble init_env
   if (cmd)
 	exec(cmd, data);
   free_cmd(cmd);

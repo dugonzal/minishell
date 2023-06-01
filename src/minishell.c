@@ -3,12 +3,13 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: Dugonzal <dugonzal@student.42urduliz.com>  +#+  +:+       +#+        */
+/*   By: sizquier <sizquier@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/10 10:01:34 by ciclo             #+#    #+#             */
-/*   Updated: 2023/05/29 21:52:58 by Dugonzal         ###   ########.fr       */
+/*   Updated: 2023/05/31 18:07:15 by sizquier         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
+
 #include "../include/minishell.h"
 
 // quotes = "\"\'"

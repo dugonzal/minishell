@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   export.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: Dugonzal <dugonzal@student.42urduliz.com>  +#+  +:+       +#+        */
+/*   By: sizquier <sizquier@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/16 09:03:50 by sizquier          #+#    #+#             */
-/*   Updated: 2023/05/29 21:45:49 by Dugonzal         ###   ########.fr       */
+/*   Updated: 2023/06/01 16:50:16 by sizquier         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,7 +43,7 @@ La idea es diseñar una función que prepare para la exportación haciendo lo si
 2)declaramos un new_env, con len = a la longitud del arreglo de punteros a caracteres *env más 2 (para la nueva cmdiable de entorno y el finalización nulo).
 3)hay que copiar todas las cadenas de caracteres de  *env en new_env, para ello usamos un bucle while
 
-static void	ft_generate_export(char	*cmd, char	***env)
+void	ft_generate_export(char	*cmd, t_data *data)
 {
 	int		i;
 	int		j;
@@ -77,26 +77,30 @@ void	ft_generate_export(char	*cmd, t_data *data)
 
 	i = 0;
 	j = 0;
-/* 	if (ft_isdigit(cmd[0]) || !ft_cmd_isalnum(cmd))
+	printf("var to add: %s\n", cmd);
+	if (ft_isdigit(cmd[0]) || !ft_cmd_isalnum(cmd))
 	{
-		printf("Hello\n");
 		return (ft_invalid(cmd));
-	} */
+	}
+	printf("var to add2: %s\n", cmd);
 	new_env = (char **) malloc((arr_size(data->env) + 2) * sizeof(char *));
+	printf("var to add3: %s\n", cmd);
 	while (data->env[i])
 	{
-		new_env[j++] = ft_strdup(data->env[i]);
+		printf("var to add: %s, i: %d\n", cmd, i);
+		new_env[i] = ft_strdup(data->env[i]);
+		printf("var to add: %s, i: %d\n", cmd, i);
 		i++;
+		j++;
 	}
-	new_env[j++] = ft_strdup(cmd);
-//	printf("My added var:%s\n", new_env[j - 1]);
-	new_env[j] = NULL;
-	if (data->init_env == 0)
-		free_dblearray((void **)data->env);
-	data->init_env = 0;
-//	printf("data env ptr pre %p\n", data->env);
+	printf("var to add: %s\n", cmd);
+	new_env[i++] = ft_strdup(cmd);
+	printf("My added var:%s\n", new_env[j - 1]);
+	new_env[i] = NULL;
+	free_dblearray((void **)data->env);
+	printf("data env ptr pre %p\n", data->env);
 	data->env = new_env;
-//	printf("export result: %s\n", data->env[j - 1]);
+	printf("export result: %s\n", data->env[j - 1]);
 }
 
 char	*ft_export_namecmd(char	*cmd)
@@ -110,7 +114,7 @@ char	*ft_export_namecmd(char	*cmd)
 			return (ft_substr(cmd, 0, i + 1));
 		i++;
 	}
-	return (NULL);
+	return (cmd);
 }
 /*versión con triple puntero, manteniendose como estática.
 El parámetro env se pasa como un puntero a un puntero a un puntero a char (char ***env). 
@@ -127,9 +131,11 @@ int	ft_check_replace(char	*cmd, t_data *data)
 	char	*name_cmd;
 
 	i = 0;
-	name_cmd = ft_export_namecmd(cmd);
+	//name_cmd = ft_export_namecmd(cmd);
 	if (cmd == NULL) //caso que cmd no tenga valor
 		name_cmd = ft_strdup(cmd);
+	else
+		name_cmd = ft_export_namecmd(cmd); //lo he modificado, no se muy bien xq no coge
 	while (data->env[i]) // caso que cmd tenga valor
 	{
 		if (ft_strncmp(data->env[i], name_cmd, ft_strlen(name_cmd)) == 0)
@@ -141,14 +147,14 @@ int	ft_check_replace(char	*cmd, t_data *data)
 		}
 		i++;
 	}
-//	free(name_cmd);
-	
+//free(name_cmd);
+
 	if (name_cmd)
 	{
 		free(name_cmd);
 		name_cmd = NULL;
 	}
-	
+
 	return (0);
 }
 /*
@@ -169,10 +175,9 @@ int	ft_export_builtin_individual(char *cmd, t_data *data)
 		return (1);
 	}
 	found = ft_check_replace(cmd, data);
-	
 	if (found == 0)
 	{
-		printf("Enterning generate export\n");
+		printf("Enterning generate export with arg %s\n", cmd);
 		ft_generate_export(cmd, data);
 	}
 	return (0);
@@ -186,24 +191,24 @@ int	ft_export_general_builtin(char	**cmd, t_data *data)
 
 	i = 1;
 	//g_status = 0;
-	printf("data env ptr %p\n", data->env);
+	printf("data env ptr pre%p\n\n\n", data->env);
 	if (!cmd[1])
 	{
 		i = 0;
 		while (data->env[i])
 			printf("declare -x %s\n", data->env[i++]);
-		printf("data env ptr %p\n", data->env);
 		return (1);
 	}
+	printf("begin var to insert: %s\n", cmd[1]);
 	while (cmd[i])
 	{
 //		printf("%s\n", cmd[i]);
 		ft_export_builtin_individual(cmd[i++], data);
 	}
-/* 	printf("data env ptr post 2%p\n\n\n", data->env);
+	printf("data env ptr post 2%p\n\n\n", data->env);
 	i = 0;
 	while (data->env[i])
-		printf("declare -x %s\n", data->env[i++]); */
+		printf("declare -x %s\n", data->env[i++]);
 //	printf("data env ptr %p\n", data->env);
 //	free_dblearray((void **)*env);
 	return (1);

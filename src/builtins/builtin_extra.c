@@ -6,7 +6,7 @@
 /*   By: sizquier <sizquier@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/18 20:52:25 by sizquier          #+#    #+#             */
-/*   Updated: 2023/05/25 18:39:56 by sizquier         ###   ########.fr       */
+/*   Updated: 2023/06/01 16:32:14 by sizquier         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,7 +41,7 @@ int	ft_cmd_isalnum(char	*str)
 	i = 0;
 	while (str[i] && str[i] != '=')
 	{
-		if (!ft_cmd_isalnum(&str[i]) && str[i] != '_')
+		if (!ft_isalnum(str[i]) && str[i] != '_')
 			return (0);
 		i++;
 	}
